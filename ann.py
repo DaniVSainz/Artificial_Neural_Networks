@@ -41,15 +41,19 @@ X_test = sc.transform(X_test)
 import keras
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.layers import Dropout
+
 
 #Initialize ann
 classifier = Sequential()
 
 #add input layer and first hidden layer
 classifier.add(Dense(activation="relu", input_dim=11, units=6, kernel_initializer="uniform"))
+classifier.add(Dropout(p=0.1))
 
 #Add second hidden layer
 classifier.add(Dense(activation="relu", units=6, kernel_initializer="uniform"))
+classifier.add(Dropout(p=0.1))
 
 #Create output layer
 classifier.add(Dense(activation="sigmoid", units=1, kernel_initializer="uniform"))
@@ -90,6 +94,7 @@ from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import cross_val_score
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.layers import Dropout
 def build_classifier():
     classifier = Sequential()
     classifier.add(Dense(activation="relu", input_dim=11, units=6, kernel_initializer="uniform"))
@@ -102,6 +107,8 @@ if __name__ == "__main__":
     accuracies = cross_val_score(estimator=classifier, X = X_train, y = y_train, cv = 10, n_jobs= 1)
 
 mean = accuracies.mean()
+variance = accuracies.std()
+print(mean)
 
 
 
