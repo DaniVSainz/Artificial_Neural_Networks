@@ -46,10 +46,20 @@ from keras.layers import Dense
 classifier = Sequential()
 
 #add input layer and first hidden layer
-classifier.add(Dense(output_dim = 6, init='uniform',activation='relu', input_dim=11))
+classifier.add(Dense(activation="relu", input_dim=11, units=6, kernel_initializer="uniform"))
 
 #Add second hidden layer
-classifier.add(Dense(output_dim = 6, init='uniform',activation='relu'))
+classifier.add(Dense(activation="relu", units=6, kernel_initializer="uniform"))
+
+#Create output layer
+classifier.add(Dense(activation="sigmoid", units=1, kernel_initializer="uniform"))
+
+#Compile the ANN
+
+classifier.compile(optimizer='adam', loss='binary_crossentropy',metrics=['accuracy'])
+
+#Fit the ANN to the training set
+classifier.fit(X_train,y_train,batch_size=10,nb_epoch=100)
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
