@@ -88,7 +88,8 @@ cm = confusion_matrix(y_test, y_pred)
 #Evaluate the ANN 
 from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import cross_val_score
-
+from keras.models import Sequential
+from keras.layers import Dense
 def build_classifier():
     classifier = Sequential()
     classifier.add(Dense(activation="relu", input_dim=11, units=6, kernel_initializer="uniform"))
@@ -96,6 +97,11 @@ def build_classifier():
     classifier.add(Dense(activation="sigmoid", units=1, kernel_initializer="uniform"))
     classifier.compile(optimizer='adam', loss='binary_crossentropy',metrics=['accuracy'])
     return classifier
+classifier = KerasClassifier(build_fn = build_classifier,batch_size=10,nb_epoch=100)
+if __name__ == "__main__":
+    accuracies = cross_val_score(estimator=classifier, X = X_train, y = y_train, cv = 10, n_jobs= 1)
+
+mean = accuracies.mean()
 
 
 
